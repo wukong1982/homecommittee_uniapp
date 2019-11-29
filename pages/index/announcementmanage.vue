@@ -3,12 +3,16 @@
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
-		<button type="primary" style="align-items:flex-start; justify-content:flex-start"  @click="addAnnouncement()">添加</button>
+		
+		<view>
+		<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>{{"  "}}
+		<a href="#" @click="addAnnouncement()" style="color:#007AFF">添加</a>
+		</view>
 		
 		<view style="width:500rpx" v-for="announcement in announcements">
 		  <text>{{announcement.title + "  " + getUpdatedDate(announcement.updatedAt)}}</text>
-		  {{"  "}}<a href="#" @click="editAnnouncement(announcement.objectId)">修改</a>
-		  {{"  "}}<a href="#" @click="deleteAnnouncement(announcement.objectId)">删除</a>
+		  {{"  "}}<a href="#" @click="editAnnouncement(announcement.objectId)" style="color:#007AFF">修改</a>
+		  {{"  "}}<a href="#" @click="deleteAnnouncement(announcement.objectId)" style="color:#007AFF">删除</a>
 		  <br>
 		  <text>{{announcement.content}}</text>
 		  <hr>
@@ -46,6 +50,11 @@
 				        console.log(res.data.results);        
 				        this.announcements = res.data.results;
 				    }
+				});
+			},
+			goIndex() {
+				uni.navigateTo({
+				    url: '/pages/index/index'
 				});
 			},
 			addAnnouncement() {

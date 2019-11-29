@@ -4,6 +4,8 @@
 			<text class="title">{{title}}</text>
 		</view>
 		
+		<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>
+		
 		<view style="width:500rpx" v-for="task in tasks">
 		  <text>{{task.task_subject + "  " + getTaskDate(task.task_date)}}</text>
 		  <br>
@@ -27,6 +29,11 @@
             this.getData();
 		},
 		methods: {
+			goIndex() {
+				uni.navigateTo({
+				    url: '/pages/index/index'
+				});
+			},
             getData() {
 				var classid = uni.getStorageSync('classid');
             	uni.request({

@@ -5,13 +5,14 @@
 		</view>
 		
 		<view>		
-		<button type="primary" @click="addTask()">添加</button>
+		<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>{{"  "}}
+		<a href="#" @click="addTask()" style="color:#007AFF">添加</a>
 		</view>
 			
 		<view style="width:500rpx" v-for="task in tasks">
 		  <text>{{task.task_subject + "  " + getTaskDate(task.task_date)}}</text>
-		  {{"  "}}<a href="#" @click="editTask(task.objectId)">修改</a>
-		  {{"  "}}<a href="#" @click="deleteTask(task.objectId)">删除</a>
+		  {{"  "}}<a href="#" @click="editTask(task.objectId)" style="color:#007AFF">修改</a>
+		  {{"  "}}<a href="#" @click="deleteTask(task.objectId)" style="color:#007AFF">删除</a>
 		  <br>
 		  <text>{{task.task_desc}}</text>
 		  <hr>
@@ -49,6 +50,11 @@
 				        console.log(res.data.results);        
 				        this.tasks = res.data.results;
 				    }
+				});
+			},
+			goIndex() {
+				uni.navigateTo({
+				    url: '/pages/index/index'
 				});
 			},
 			addTask() {
