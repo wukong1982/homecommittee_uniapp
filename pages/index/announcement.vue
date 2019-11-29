@@ -24,9 +24,11 @@
 			}
 		},
 		onLoad() {
+			var classid = uni.getStorageSync('classid');
             uni.request({
                 url: 'https://api2.bmob.cn/1/classes/announcement?order=-updatedDate&limit=50',
                 data: {
+                	where:{"classid": classid}
                 },
                 header: {
                     'X-Bmob-Application-Id':'3bea17a55823d07e2487d6db68a04ba0', 

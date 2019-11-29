@@ -91,13 +91,17 @@
 			    return (myyear + "-" + mymonth + "-" + day);
 			},
 			formSubmit() {
+				if(!this.title || this.title.length <=0 || !this.content || this.content.length <=0) {
+					return;
+				}
+				
 				var url = 'https://api2.bmob.cn/1/classes/announcement/';
 				var method = 'POST';
 				if (this.objectId && this.objectId.length > 0) {
 					url = url + this.objectId;
 					method = 'PUT';
 				}
-				
+				var classid = uni.getStorageSync('classid');
 				var now = new Date();
 				var date = this.formatDate(now) + " 00:00:00";
 				uni.request({
@@ -105,7 +109,8 @@
 					method: method,
 				    data: {
 						title: this.title,
-						content: this.content
+						content: this.content,
+						classid: classid
 				    },
 				    header: {
 				        'X-Bmob-Application-Id':'3bea17a55823d07e2487d6db68a04ba0',

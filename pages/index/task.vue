@@ -28,9 +28,11 @@
 		},
 		methods: {
             getData() {
+				var classid = uni.getStorageSync('classid');
             	uni.request({
             	    url: 'https://api2.bmob.cn/1/classes/task?order=-task_date&limit=50', //仅为示例，并非真实接口地址。
             	    data: {
+            	    	where:{"classid": classid}
             	    },
             	    header: {
             	        'X-Bmob-Application-Id':'3bea17a55823d07e2487d6db68a04ba0', 

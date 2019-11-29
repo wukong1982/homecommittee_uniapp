@@ -3,19 +3,22 @@
 		<image class="logo" src="/static/logo.jpg"></image>
 		<text class="title">{{title}}</text>
 		<view>
-		    <navigator url="/pages/index/task" hover-class="navigator-hover" style="width:200rpx">
+		    <navigator url="/pages/index/task" hover-class="navigator-hover" style="width:300rpx">
 		        <button type="primary">作业</button>
 		    </navigator>
-		    <navigator url="/pages/index/announcement" hover-class="navigator-hover" style="width:200rpx">
+		    <navigator url="/pages/index/announcement" hover-class="navigator-hover" style="width:300rpx">
 		        <button type="primary">公告</button>
 		    </navigator>
-			<navigator url="/pages/index/taskmanage" hover-class="navigator-hover" style="width:200rpx">
+			<navigator url="/pages/index/taskmanage" hover-class="navigator-hover" style="width:300rpx">
 			    <button type="primary">作业管理</button>
 			</navigator>
-			<navigator url="/pages/index/announcementmanage" hover-class="navigator-hover" style="width:200rpx">
+			<navigator url="/pages/index/announcementmanage" hover-class="navigator-hover" style="width:300rpx">
 			    <button type="primary">公告管理</button>
 			</navigator>
-		</view>		
+			<navigator url="/pages/index/login" hover-class="navigator-hover" style="width:300rpx">
+			    <button type="primary">重新登陆</button>
+			</navigator>
+		</view>
 	</view>
 </template>
 
