@@ -119,14 +119,14 @@
 				    },
 				    success: (res) => {
 				        console.log(res.data.results);
-				        uni.navigateTo({
+				        uni.redirectTo({
 				            url: '/pages/index/announcementmanage'
 				        });
 				    }
 				});
 			},
 			formReset() {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/announcementmanage'
 				});
 			}

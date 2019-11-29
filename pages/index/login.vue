@@ -50,7 +50,7 @@
 						if (users && users.length == 1) {
 							var classid = users[0].classid;
 							uni.setStorageSync('classid', classid);
-							uni.navigateTo({
+							uni.redirectTo({
 							    url: '/pages/index/index'
 							});
 						}
@@ -61,7 +61,7 @@
 			},
 			access() {
 				uni.setStorageSync('classid', '');
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/index'
 				});
 			}

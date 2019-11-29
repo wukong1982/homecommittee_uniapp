@@ -25,7 +25,7 @@
 	export default {
 		data() {
 			return {
-				title: '公告',
+				title: '公告管理',
 				announcements: [
 				]
 			}
@@ -53,17 +53,17 @@
 				});
 			},
 			goIndex() {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/index'
 				});
 			},
 			addAnnouncement() {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/announcementedit'
 				});
 			},
 			editAnnouncement(objectId) {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/announcementedit?objectId=' + objectId
 				});
 			},

@@ -30,7 +30,7 @@
 		},
 		methods: {
 			goIndex() {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/index'
 				});
 			},

@@ -5,8 +5,8 @@
 		</view>
 		
 		<view>		
-		<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>{{"  "}}
-		<a href="#" @click="addTask()" style="color:#007AFF">添加</a>
+		{{"  "}}<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>
+		{{"  "}}<a href="#" @click="addTask()" style="color:#007AFF">添加</a>
 		</view>
 			
 		<view style="width:500rpx" v-for="task in tasks">
@@ -25,7 +25,7 @@
 	export default {
 		data() {
 			return {
-				title: '作业',
+				title: '作业管理',
 				tasks: [
 				]
 			}
@@ -53,17 +53,17 @@
 				});
 			},
 			goIndex() {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/index'
 				});
 			},
 			addTask() {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/taskedit'
 				});
 			},
 			editTask(objectId) {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/taskedit?objectId=' + objectId
 				});
 			},

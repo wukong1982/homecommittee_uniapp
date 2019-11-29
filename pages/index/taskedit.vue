@@ -123,14 +123,14 @@
 				    },
 				    success: (res) => {
 				        console.log(res.data.results);
-				        uni.navigateTo({
+				        uni.redirectTo({
 				            url: '/pages/index/taskmanage'
 				        });
 				    }
 				});
 			},
 			formReset() {
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: '/pages/index/taskmanage'
 				});
 			}

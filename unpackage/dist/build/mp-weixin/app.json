@@ -1,10 +1,13 @@
 {
   "pages": [
+    "pages/index/login",
     "pages/index/index",
     "pages/index/task",
     "pages/index/announcement",
     "pages/index/taskmanage",
-    "pages/index/taskedit"
+    "pages/index/taskedit",
+    "pages/index/announcementmanage",
+    "pages/index/announcementedit"
   ],
   "subPackages": [],
   "window": {
