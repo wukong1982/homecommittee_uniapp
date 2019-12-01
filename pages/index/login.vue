@@ -1,18 +1,18 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.jpg"></image>
+		<image class="logo" src="/static/logo.jpg" style="width:700rpx;height:700rpx"></image>
 		<text class="title">{{title}}</text>
 		<view>
-		    <view class="uni-form-item uni-row" style="width:500rpx">		    	
+		    <view class="uni-form-item uni-row" style="width:600rpx">		    	
 		    	<input placeholder-style="color:#F76260" v-model="username" placeholder="请输入用户名" />
 		    </view>
-		    <view class="uni-form-item uni-row" style="width:500rpx">
+		    <view class="uni-form-item uni-row" style="width:600rpx">
 		    	<input placeholder-style="color:#F76260" password="true" v-model="password" placeholder="请输入密码" />
 		    </view>
-			<view class="uni-form-item uni-row" style="width:500rpx">
+			<view class="uni-form-item uni-row" style="width:600rpx">
 			    <button type="primary" @click="login()">登陆</button>
 			</view>
-			<view class="uni-form-item uni-row" style="width:500rpx">
+			<view class="uni-form-item uni-row" style="width:600rpx">
 			    <button type="primary" @click="access()">匿名访问</button>
 			</view>
 		</view>
@@ -29,7 +29,12 @@
 			}
 		},
 		onLoad() {
-
+			var username = uni.getStorageSync('username');
+			var password = uni.getStorageSync('password');
+			if (username) {
+				this.username = username;
+				this.password = password
+			}
 		},
 		methods: {
             login() {
@@ -44,12 +49,15 @@
 				        'X-Bmob-REST-API-Key':'c8069787cb4ff2c10d99dae927667233', 
 				        'Content-Type':'application/json'
 				    },
-				    success: (res) => {
-						var users = res.data.results;
-				        console.log(users);
+				    success: (res) => {			
+						var users = res.data.results;				        
 						if (users && users.length == 1) {
 							var classid = users[0].classid;
+							var classname = users[0].classname;
+							uni.setStorageSync('classname', classname);
 							uni.setStorageSync('classid', classid);
+							uni.setStorageSync('username', this.username);
+							uni.setStorageSync('password', this.password);
 							uni.redirectTo({
 							    url: '/pages/index/index'
 							});

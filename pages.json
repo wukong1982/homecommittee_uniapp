@@ -3,49 +3,49 @@
 		{
 			"path": "pages/index/login",
 			"style": {
-				"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
+				"navigationBarTitleText": "家委会"
 			}
 		},
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
+				//"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
 			}
 		},
 		{
 			"path": "pages/index/task",
 			"style": {
-				"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
+				//"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
 			}
 		},
 		{
 			"path": "pages/index/announcement",
 			"style": {
-				"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
+				//"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
 			}
 		},
 		{
 			"path": "pages/index/taskmanage",
 			"style": {
-				"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
+				//"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
 			}
 		},
 		{
 			"path": "pages/index/taskedit",
 			"style": {
-				"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
+				//"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
 			}
 		},
 		{
 			"path": "pages/index/announcementmanage",
 			"style": {
-				"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
+				//"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
 			}
 		},
 		{
 			"path": "pages/index/announcementedit",
 			"style": {
-				"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
+				//"navigationBarTitleText": "白鹭湖小学一(5)班家委会"
 			}
 		}
 	],

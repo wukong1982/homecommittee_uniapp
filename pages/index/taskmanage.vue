@@ -1,21 +1,21 @@
 <template>
-	<view class="content uni-padding-wrap uni-common-mt">		
+	<view class="content">		
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
 		
-		<view>		
-		{{"  "}}<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>
-		{{"  "}}<a href="#" @click="addTask()" style="color:#007AFF">添加</a>
+		<view style="width:700rpx;display:flex; flex-direction: row;">	
+		<a href="#" @click="goIndex()" style="color:#007AFF;font-size:36rpx">返回首页</a>
+		<a href="#" @click="addTask()" style="margin-left:10rpx;color:#007AFF;font-size:36rpx">添加</a>
 		</view>
 			
-		<view style="width:500rpx" v-for="task in tasks">
+		<view style="width:700rpx;border-bottom:5rpx #00FF00 solid;" v-for="task in tasks">
+		  <view style="display:flex; flex-direction: row;">	
 		  <text>{{task.task_subject + "  " + getTaskDate(task.task_date)}}</text>
-		  {{"  "}}<a href="#" @click="editTask(task.objectId)" style="color:#007AFF">修改</a>
-		  {{"  "}}<a href="#" @click="deleteTask(task.objectId)" style="color:#007AFF">删除</a>
-		  <br>
+		  <a href="#" @click="editTask(task.objectId)" style="margin-left:10rpx;color:#007AFF">修改</a>
+		  <a href="#" @click="deleteTask(task.objectId)" style="margin-left:10rpx;color:#007AFF">删除</a>
+		  </view>
 		  <text>{{task.task_desc}}</text>
-		  <hr>
 		</view>
 		
 	</view>
@@ -31,6 +31,10 @@
 			}
 		},
 		onLoad() {
+			var classname = uni.getStorageSync('classname');
+			uni.setNavigationBarTitle({
+			    title: classname
+			});
             this.getData();
 		},
 		methods: {

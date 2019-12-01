@@ -1,21 +1,21 @@
 <template>
-	<view class="content uni-padding-wrap uni-common-mt">		
+	<view class="content">		
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
 		
-		<view>
-		<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>{{"  "}}
-		<a href="#" @click="addAnnouncement()" style="color:#007AFF">添加</a>
+		<view style="width:700rpx;display:flex; flex-direction: row;">
+		<a href="#" @click="goIndex()" style="color:#007AFF;font-size:36rpx">返回首页</a>{{"  "}}
+		<a href="#" @click="addAnnouncement()" style="margin-left:10rpx;color:#007AFF;font-size:36rpx">添加</a>
 		</view>
 		
-		<view style="width:500rpx" v-for="announcement in announcements">
+		<view style="width:700rpx;border-bottom:5rpx #00FF00 solid;" v-for="announcement in announcements">
+		  <view style="display:flex; flex-direction: row;">	
 		  <text>{{announcement.title + "  " + getUpdatedDate(announcement.updatedAt)}}</text>
-		  {{"  "}}<a href="#" @click="editAnnouncement(announcement.objectId)" style="color:#007AFF">修改</a>
-		  {{"  "}}<a href="#" @click="deleteAnnouncement(announcement.objectId)" style="color:#007AFF">删除</a>
-		  <br>
-		  <text>{{announcement.content}}</text>
-		  <hr>
+		  <a href="#" @click="editAnnouncement(announcement.objectId)" style="margin-left:10rpx;color:#007AFF">修改</a>
+		  <a href="#" @click="deleteAnnouncement(announcement.objectId)" style="margin-left:10rpx;color:#007AFF">删除</a>
+		  </view>
+		  <text>{{announcement.content}}</text>		  
 		</view>
 		
 	</view>
@@ -31,6 +31,10 @@
 			}
 		},
 		onLoad() {
+			var classname = uni.getStorageSync('classname');
+			uni.setNavigationBarTitle({
+			    title: classname
+			});
             this.getData();
 		},
 		methods: {

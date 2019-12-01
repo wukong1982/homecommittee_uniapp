@@ -1,17 +1,17 @@
 <template>
 	<view class="content">		
 		<view class="text-area">
-			<text class="title">{{title}}</text>
+			<text class="title">{{page_title}}</text>
 		</view>
 		
 		<form @submit="formSubmit">
-			<view class="uni-form-item uni-row" style="width:500rpx">
+			<view style="width:700rpx">
 				<view style="background-color:#C0C0C0;">标题</view>
 				<input placeholder-style="color:#F76260" v-model="title" placeholder="请输入标题" />
 			</view>
-			<view class="uni-form-item uni-column">
+			<view style="width:700rpx;height:600rpx">
 				<view style="background-color:#C0C0C0;">内容</view>				    
-				<textarea placeholder-style="color:#F76260" v-model="content" placeholder="请输入内容"/>
+				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:500rpx" v-model="content" placeholder="请输入内容" maxlength="5000"/>
 			</view>
 			<!--
 			<view style="width:100rpx;height:100rpx">
@@ -24,9 +24,9 @@
 			     <button @click="openCalendar">打开日历</button>
 			</view>
 			-->
-			<view class="uni-btn-v">
-				<button form-type="submit">提交</button>
-				<button type="default" @click="formReset()">取消</button>
+			<view>
+				<button type="primary" form-type="submit">提交</button>
+				<button type="primary" @click="formReset()">取消</button>
 			</view>
 		</form>
 		
@@ -41,13 +41,18 @@
 		//},
 		data() {
 			return {
-				title: '公告',
-				title: '',
+				page_title: '公告编辑',
 				content: '',
-				objectId: ''
+				objectId: '',
+				title:''
 			}
 		},
 		onLoad(option) {
+			var classname = uni.getStorageSync('classname');
+			uni.setNavigationBarTitle({
+			    title: classname
+			});
+			
 			if (option) {
                 this.objectId = option.objectId;
 			}

@@ -4,13 +4,14 @@
 			<text class="title">{{title}}</text>
 		</view>
 		
-		<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>
+		<view style="width:700rpx">
+		<a href="#" @click="goIndex()" style="position:relative;color:#007AFF;font-size:36rpx">返回首页</a>
+		</view>
 
-		<view style="width:500rpx" v-for="announcement in announcements">
+		<view style="width:700rpx;border-bottom:5rpx #00FF00 solid;" v-for="announcement in announcements">
 			<text>{{announcement.title + "(" + getUpdatedDate(announcement.updatedAt) + ")"}}</text>
 			<br>
 			<text class="flex-item uni-bg-green">{{announcement.content}}</text>
-			<hr>
 		</view>
 		
 	</view>
@@ -26,6 +27,11 @@
 			}
 		},
 		onLoad() {
+			var classname = uni.getStorageSync('classname');
+			uni.setNavigationBarTitle({
+			    title: classname
+			});
+			
 			var classid = uni.getStorageSync('classid');
             uni.request({
                 url: 'https://api2.bmob.cn/1/classes/announcement?order=-updatedDate&limit=50',

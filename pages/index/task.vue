@@ -1,17 +1,18 @@
 <template>
-	<view class="content uni-padding-wrap uni-common-mt">		
+	<view class="content">		
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
 		
-		<a href="#" @click="goIndex()" style="color:#007AFF">首页</a>
-		
-		<view style="width:500rpx" v-for="task in tasks">
+		<view style="width:700rpx">
+		<a href="#" @click="goIndex()" style="position:relative;color:#007AFF;font-size:36rpx">返回首页</a>
+		</view>
+		<view style="width:700rpx;border-bottom:5rpx #00FF00 solid;" v-for="task in tasks">
 		  <text>{{task.task_subject + "  " + getTaskDate(task.task_date)}}</text>
 		  <br>
 		  <text>{{task.task_desc}}</text>
-		  <hr>
 		</view>
+		
 		
 	</view>
 </template>
@@ -26,6 +27,10 @@
 			}
 		},
 		onLoad() {
+			var classname = uni.getStorageSync('classname');
+			uni.setNavigationBarTitle({
+			    title: classname
+			});
             this.getData();
 		},
 		methods: {
