@@ -1,17 +1,26 @@
 <template>
-	<view class="content">		
+	<view class="content">
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
-		
+
 		<form @submit="formSubmit">
 			<view style="width:700rpx">
 				<view style="background-color:#C0C0C0;">科目</view>
 				<input placeholder-style="color:#F76260" v-model="task_subject" placeholder="请输入科目" />
 			</view>
 			<view style="width:700rpx;height:600rpx">
-				<view style="background-color:#C0C0C0;">描述</view>				    
-				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:500rpx" v-model="task_desc" placeholder="请输入描述" maxlength="5000"/>
+				<view style="background-color:#C0C0C0;">描述</view>
+				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:500rpx" v-model="task_desc" placeholder="请输入描述"
+				 maxlength="5000" />
+				</view>
+			<view style="width:700rpx;display:flex;flex-direction:row;justify-content:flex-start">
+				<view><button type="primary" style="width:100rpx" @click="upload">选择照片</button></view>
+				{{filepaths.length}}
+				<view style="width:200rpx;height:200rpx" v-for="filepath in filepaths">
+					{{filepath}}
+				    <image v-bind:src="filepath" style="width:200rpx;height:190rpx" />
+				</view>
 			</view>
 			<!--
 			<view style="width:100rpx;height:100rpx">
@@ -44,7 +53,8 @@
 				title: '作业编辑',
 				task_subject: '',
 				task_desc: '',
-				objectId: ''
+				objectId: '',
+				filepaths: []
 			}
 		},
 		onLoad(option) {
@@ -137,6 +147,24 @@
 			formReset() {
 				uni.redirectTo({
 				    url: '/pages/index/taskmanage'
+				});
+			},
+			upload() {
+				var _self = this;
+				uni.chooseImage({
+				    count: 1,
+				    sizeType: ['original', 'compressed'],
+				    success: function (res) {
+				        var tempFilePaths = res.tempFilePaths;
+						for (var path in _self.filepaths) {
+							tempFilePaths.push(path);
+						}
+						_self.filepaths = tempFilePaths;
+						console.log(_self.filepaths);
+				    },
+				    error: function(e) {
+				        console.log(e);
+				    }
 				});
 			}
 		}
