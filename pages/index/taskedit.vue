@@ -13,15 +13,18 @@
 				<view style="background-color:#C0C0C0;">描述</view>
 				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:500rpx" v-model="task_desc" placeholder="请输入描述"
 				 maxlength="5000" />
+			</view>
+			<!--
+			<view style="width:700rpx;display:flex;flex-direction:row;justify-content:flex-start;flex-wrap:wrap">
+				<view><button type="primary" style="width:100rpx" @click="choosePic">选择照片</button></view>
+				<view style="width:200rpx;height:200rpx;border:1px solid;" v-for="url in task_url">
+					<image v-bind:src="url" style="width:200rpx;height:200rpx;"/>
 				</view>
-			<view style="width:700rpx;display:flex;flex-direction:row;justify-content:flex-start">
-				<view><button type="primary" style="width:100rpx" @click="upload">选择照片</button></view>
-				{{filepaths.length}}
-				<view style="width:200rpx;height:200rpx" v-for="filepath in filepaths">
-					{{filepath}}
-				    <image v-bind:src="filepath" style="width:200rpx;height:190rpx" />
+				<view style="width:200rpx;height:200rpx;border:1px solid;" v-for="filepath in filepaths">
+					<image v-bind:src="filepath" style="width:200rpx;height:200rpx;"/>
 				</view>
 			</view>
+			-->
 			<!--
 			<view style="width:100rpx;height:100rpx">
 			    <uni-calendar 
@@ -53,6 +56,7 @@
 				title: '作业编辑',
 				task_subject: '',
 				task_desc: '',
+				task_url: [],
 				objectId: '',
 				filepaths: []
 			}
@@ -74,7 +78,7 @@
 		methods: {
             getData() {
             	uni.request({
-            	    url: 'https://api2.bmob.cn/1/classes/task/' + this.objectId, 
+            	    url: 'https://api2.bmob.cn/1/classes/task/' + this.objectId,
             	    data: {
             	    },
             	    header: {
@@ -86,6 +90,10 @@
             	        console.log(res.data);        
             	        this.task_subject = res.data.task_subject;
 						this.task_desc = res.data.task_desc;
+						var url = res.data.task_url;
+						if (url && url.length > 0) {
+							this.task_url = url.split("|");
+						}
             	    }
             	});
             },
@@ -108,6 +116,39 @@
 			formSubmit() {
 				if(!this.task_subject || this.task_subject.length <=0 || !this.task_desc || this.task_desc.length <=0) {
 					return;
+				}
+				
+				if (this.filepaths && this.filepaths.length > 0) {
+					for (var i = 0; i < this.filepaths.length; i++) {
+						var filepath = this.filepaths[i];
+						var fileNameIndex = filepath.lastIndexOf("/") + 1;
+						var fileName = filepath.substring(fileNameIndex);
+						var url = "https://api2.bmob.cn/2/files/" + fileName;
+						
+						uni.request({
+						    url: url, 
+							method: 'POST',
+						    data: {
+								task_subject: this.task_subject,
+								task_desc: this.task_desc,
+								task_date:{
+									__type:'DATE',
+									iso: date
+								},
+						    },
+						    header: {
+						        'X-Bmob-Application-Id':'3bea17a55823d07e2487d6db68a04ba0',
+						        'X-Bmob-REST-API-Key':'c8069787cb4ff2c10d99dae927667233',
+						        'Content-Type':'image/jpeg'
+						    },
+						    success: (res) => {
+						        console.log(res.data.results);
+						        uni.redirectTo({
+						            url: '/pages/index/taskmanage'
+						        });
+						    }
+						});
+					}
 				}
 				
 				var url = 'https://api2.bmob.cn/1/classes/task/';
@@ -149,17 +190,23 @@
 				    url: '/pages/index/taskmanage'
 				});
 			},
-			upload() {
+			choosePic() {
 				var _self = this;
 				uni.chooseImage({
 				    count: 1,
 				    sizeType: ['original', 'compressed'],
 				    success: function (res) {
 				        var tempFilePaths = res.tempFilePaths;
-						for (var path in _self.filepaths) {
-							tempFilePaths.push(path);
+						
+						var tempPaths = [];
+						for (var i = 0; i < _self.filepaths.length; i++) {							
+							tempPaths.push(_self.filepaths[i]);
 						}
-						_self.filepaths = tempFilePaths;
+						for (var i = 0; i < tempFilePaths.length; i++) {
+							tempPaths.push(tempFilePaths[i]);
+						}
+						
+						_self.filepaths = tempPaths;
 						console.log(_self.filepaths);
 				    },
 				    error: function(e) {

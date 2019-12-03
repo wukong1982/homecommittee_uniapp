@@ -34,7 +34,7 @@
 			
 			var classid = uni.getStorageSync('classid');
             uni.request({
-                url: 'https://api2.bmob.cn/1/classes/announcement?order=-updatedDate&limit=50',
+                url: 'https://api2.bmob.cn/1/classes/announcement?order=-updatedAt&limit=50',
                 data: {
                 	where:{"classid": classid}
                 },
