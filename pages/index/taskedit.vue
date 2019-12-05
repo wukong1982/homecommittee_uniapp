@@ -56,7 +56,7 @@
 				task_url: [],
 				objectId: '',
 				filepaths: [],
-				files:[]
+				fileSizes:[]
 			}
 		},
 		onLoad(option) {
@@ -122,6 +122,10 @@
 						var fileNameIndex = filepath.lastIndexOf("/") + 1;
 						var fileName = filepath.substring(fileNameIndex);						
 						console.log("file upload: " + filepath);
+						
+						//homecommunitee.cn-sh2.ufileos.com
+						//uk:nlAWcPDDavU8K0eeqMLiIascHIUVI1fVxNNZz_kt
+						//rk: NND-pZfM03XVYpBDdmurjlpM1OU8yrFk4WH_v2J-IlnQZbikegkEzxrwkw8XcEWh
 						
 						uni.uploadFile({
 						    url: 'https://api2.bmob.cn/2/files/' + fileName, 
@@ -199,18 +203,22 @@
 				    count: 1,
 				    sizeType: ['original', 'compressed'],
 				    success: function (res) {
-						_self.files = res.tempFiles;
+						var tempFiles = res.tempFiles;
 				        var tempFilePaths = res.tempFilePaths;
 						
 						var tempPaths = [];
+						var tempFileSizes = [];
 						for (var i = 0; i < _self.filepaths.length; i++) {
 							tempPaths.push(_self.filepaths[i]);
+							tempFileSizes.push(_self.fileSizes[i]);
 						}
 						for (var i = 0; i < tempFilePaths.length; i++) {
 							tempPaths.push(tempFilePaths[i]);
+							tempFileSizes.push(tempFiles[i].size);
 						}
 						
 						_self.filepaths = tempPaths;
+						_self.fileSizes = tempFileSizes;
 						console.log("File choosed: " + _self.filepaths);
 				    },
 				    error: function(e) {
