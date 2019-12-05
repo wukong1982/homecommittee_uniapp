@@ -14,9 +14,10 @@
 				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:500rpx" v-model="task_desc" placeholder="请输入描述"
 				 maxlength="5000" />
 			</view>
-			<!--
+			
 			<view style="width:700rpx;display:flex;flex-direction:row;justify-content:flex-start;flex-wrap:wrap">
 				<view><button type="primary" style="width:100rpx" @click="choosePic">选择照片</button></view>
+				
 				<view style="width:200rpx;height:200rpx;border:1px solid;" v-for="url in task_url">
 					<image v-bind:src="url" style="width:200rpx;height:200rpx;"/>
 				</view>
@@ -24,7 +25,7 @@
 					<image v-bind:src="filepath" style="width:200rpx;height:200rpx;"/>
 				</view>
 			</view>
-			-->
+			
 			<!--
 			<view style="width:100rpx;height:100rpx">
 			    <uni-calendar 
@@ -45,12 +46,8 @@
 	</view>
 </template>
 
-<script>
-	//import uniCalendar from "@/components/uni-calendar/uni-calendar"
+<script>	
 	export default {
-		//components: {
-		//    uniCalendar
-		//},
 		data() {
 			return {
 				title: '作业编辑',
@@ -58,7 +55,8 @@
 				task_desc: '',
 				task_url: [],
 				objectId: '',
-				filepaths: []
+				filepaths: [],
+				files:[]
 			}
 		},
 		onLoad(option) {
@@ -122,30 +120,25 @@
 					for (var i = 0; i < this.filepaths.length; i++) {
 						var filepath = this.filepaths[i];
 						var fileNameIndex = filepath.lastIndexOf("/") + 1;
-						var fileName = filepath.substring(fileNameIndex);
-						var url = "https://api2.bmob.cn/2/files/" + fileName;
+						var fileName = filepath.substring(fileNameIndex);						
+						console.log("file upload: " + filepath);
 						
-						uni.request({
-						    url: url, 
-							method: 'POST',
-						    data: {
-								task_subject: this.task_subject,
-								task_desc: this.task_desc,
-								task_date:{
-									__type:'DATE',
-									iso: date
-								},
-						    },
-						    header: {
-						        'X-Bmob-Application-Id':'3bea17a55823d07e2487d6db68a04ba0',
-						        'X-Bmob-REST-API-Key':'c8069787cb4ff2c10d99dae927667233',
-						        'Content-Type':'image/jpeg'
-						    },
-						    success: (res) => {
-						        console.log(res.data.results);
-						        uni.redirectTo({
-						            url: '/pages/index/taskmanage'
-						        });
+						uni.uploadFile({
+						    url: 'https://api2.bmob.cn/2/files/' + fileName, 
+						    filePath: filepath,
+							header: {
+							    'X-Bmob-Application-Id':'3bea17a55823d07e2487d6db68a04ba0',
+							    'X-Bmob-REST-API-Key':'c8069787cb4ff2c10d99dae927667233',
+							    'Content-Type':'image/jpeg'
+							},
+						    name: 'file',
+						    formData: {},
+						    success: (uploadFileRes) => {
+						        console.log(uploadFileRes.data);
+								var url = uploadFileRes.data.url;
+								if (this.task_url && this.task_url.length > 0) {
+									this.task_url.push(url);
+								}
 						    }
 						});
 					}
@@ -160,6 +153,14 @@
 				var classid = uni.getStorageSync('classid');
 				var now = new Date();
 				var date = this.formatDate(now) + " 00:00:00";
+				var url = "";
+				for (var i = 0; i < this.task_url.length; i++) {
+					url += this.task_url[i];
+					if (i < this.task_url.length - 1) {
+						url += "|";
+					}
+				}
+				
 				uni.request({
 				    url: url, 
 					method: method,
@@ -170,6 +171,7 @@
 							__type:'DATE',
 							iso: date
 						},
+						task_url: url,
 						classid:classid
 				    },
 				    header: {
@@ -182,6 +184,7 @@
 				        uni.redirectTo({
 				            url: '/pages/index/taskmanage'
 				        });
+						this.filepaths = [];
 				    }
 				});
 			},
@@ -196,10 +199,11 @@
 				    count: 1,
 				    sizeType: ['original', 'compressed'],
 				    success: function (res) {
+						_self.files = res.tempFiles;
 				        var tempFilePaths = res.tempFilePaths;
 						
 						var tempPaths = [];
-						for (var i = 0; i < _self.filepaths.length; i++) {							
+						for (var i = 0; i < _self.filepaths.length; i++) {
 							tempPaths.push(_self.filepaths[i]);
 						}
 						for (var i = 0; i < tempFilePaths.length; i++) {
@@ -207,7 +211,7 @@
 						}
 						
 						_self.filepaths = tempPaths;
-						console.log(_self.filepaths);
+						console.log("File choosed: " + _self.filepaths);
 				    },
 				    error: function(e) {
 				        console.log(e);
