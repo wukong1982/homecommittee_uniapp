@@ -14,7 +14,18 @@
 				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:500rpx" v-model="task_desc" placeholder="请输入描述"
 				 maxlength="5000" />
 			</view>
+			<view style="width:700rpx;height:300rpx">
+				<view style="background-color:#C0C0C0;">图片链接</view>
+				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:200rpx" v-model="task_url" placeholder="请输入图片链接,多个链接以---分割"
+				 maxlength="2000" />
+			</view>
+			<view style="width:700rpx;height:300rpx">
+				<view style="background-color:#C0C0C0;">视频链接</view>
+				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:200rpx" v-model="video_url" placeholder="请输入视频链接,多个链接以---分割"
+				 maxlength="2000" />
+			</view>
 			
+			<!--
 			<view style="width:700rpx;display:flex;flex-direction:row;justify-content:flex-start;flex-wrap:wrap">
 				<view><button type="primary" style="width:100rpx" @click="choosePic">选择照片</button></view>
 				
@@ -25,6 +36,7 @@
 					<image v-bind:src="filepath" style="width:200rpx;height:200rpx;"/>
 				</view>
 			</view>
+			-->
 			
 			<!--
 			<view style="width:100rpx;height:100rpx">
@@ -46,17 +58,22 @@
 	</view>
 </template>
 
-<script>	
+<script>
+	//import uniCalendar from "@/components/uni-calendar/uni-calendar"
 	export default {
+		//components: {
+		//    uniCalendar
+		//},
 		data() {
 			return {
 				title: '作业编辑',
 				task_subject: '',
 				task_desc: '',
-				task_url: [],
-				objectId: '',
-				filepaths: [],
-				fileSizes:[]
+				task_url: '',
+				video_url: '',
+				objectId: ''
+				//filepaths: [],
+				//files:[]
 			}
 		},
 		onLoad(option) {
@@ -87,11 +104,9 @@
             	    success: (res) => {
             	        console.log(res.data);        
             	        this.task_subject = res.data.task_subject;
-						this.task_desc = res.data.task_desc;
-						var url = res.data.task_url;
-						if (url && url.length > 0) {
-							this.task_url = url.split("|");
-						}
+						this.task_desc = res.data.task_desc;						
+						this.task_url = res.data.task_url;
+						this.video_url = res.data.video_url;
             	    }
             	});
             },
@@ -116,19 +131,15 @@
 					return;
 				}
 				
-				if (this.filepaths && this.filepaths.length > 0) {
+				/*if (this.filepaths && this.filepaths.length > 0) {
 					for (var i = 0; i < this.filepaths.length; i++) {
 						var filepath = this.filepaths[i];
 						var fileNameIndex = filepath.lastIndexOf("/") + 1;
 						var fileName = filepath.substring(fileNameIndex);						
 						console.log("file upload: " + filepath);
 						
-						//homecommunitee.cn-sh2.ufileos.com
-						//uk:nlAWcPDDavU8K0eeqMLiIascHIUVI1fVxNNZz_kt
-						//rk: NND-pZfM03XVYpBDdmurjlpM1OU8yrFk4WH_v2J-IlnQZbikegkEzxrwkw8XcEWh
-						
 						uni.uploadFile({
-						    url: 'https://api2.bmob.cn/2/files/' + fileName, 
+						    url: 'https://api2.bmob.cn/2/files/myPicture.jpg', 
 						    filePath: filepath,
 							header: {
 							    'X-Bmob-Application-Id':'3bea17a55823d07e2487d6db68a04ba0',
@@ -139,45 +150,40 @@
 						    formData: {},
 						    success: (uploadFileRes) => {
 						        console.log(uploadFileRes.data);
-								var url = uploadFileRes.data.url;
-								if (this.task_url && this.task_url.length > 0) {
-									this.task_url.push(url);
-								}
 						    }
 						});
 					}
 				}
-				
+				return;*/
+					
 				var url = 'https://api2.bmob.cn/1/classes/task/';
 				var method = 'POST';
-				if (this.objectId && this.objectId.length > 0) {
-					url = url + this.objectId;
-					method = 'PUT';
-				}
 				var classid = uni.getStorageSync('classid');
 				var now = new Date();
 				var date = this.formatDate(now) + " 00:00:00";
-				var url = "";
-				for (var i = 0; i < this.task_url.length; i++) {
-					url += this.task_url[i];
-					if (i < this.task_url.length - 1) {
-						url += "|";
-					}
+				
+				var data = {
+						task_subject: this.task_subject,
+						task_desc: this.task_desc,						
+						task_url: this.task_url,
+						video_url: this.video_url,
+						classid:classid
+				};
+				
+				if (this.objectId && this.objectId.length > 0) {
+					url = url + this.objectId;
+					method = 'PUT';
+				} else {
+					data.task_date = {
+						__type:'DATE',
+						iso: date
+					};
 				}
 				
 				uni.request({
 				    url: url, 
 					method: method,
-				    data: {
-						task_subject: this.task_subject,
-						task_desc: this.task_desc,
-						task_date:{
-							__type:'DATE',
-							iso: date
-						},
-						task_url: url,
-						classid:classid
-				    },
+				    data: data,
 				    header: {
 				        'X-Bmob-Application-Id':'3bea17a55823d07e2487d6db68a04ba0',
 				        'X-Bmob-REST-API-Key':'c8069787cb4ff2c10d99dae927667233',
@@ -188,7 +194,6 @@
 				        uni.redirectTo({
 				            url: '/pages/index/taskmanage'
 				        });
-						this.filepaths = [];
 				    }
 				});
 			},
@@ -203,28 +208,34 @@
 				    count: 1,
 				    sizeType: ['original', 'compressed'],
 				    success: function (res) {
-						var tempFiles = res.tempFiles;
+						_self.files = res.tempFiles;
 				        var tempFilePaths = res.tempFilePaths;
 						
 						var tempPaths = [];
-						var tempFileSizes = [];
-						for (var i = 0; i < _self.filepaths.length; i++) {
+						for (var i = 0; i < _self.filepaths.length; i++) {							
 							tempPaths.push(_self.filepaths[i]);
-							tempFileSizes.push(_self.fileSizes[i]);
 						}
 						for (var i = 0; i < tempFilePaths.length; i++) {
 							tempPaths.push(tempFilePaths[i]);
-							tempFileSizes.push(tempFiles[i].size);
 						}
 						
 						_self.filepaths = tempPaths;
-						_self.fileSizes = tempFileSizes;
-						console.log("File choosed: " + _self.filepaths);
+						console.log("File choosed: ");
+						console.log(_self.filepaths);
 				    },
 				    error: function(e) {
 				        console.log(e);
 				    }
 				});
+			},			
+			choosePic1(fileE) {
+				var tempPaths = [];
+				for (var i = 0; i < fileE.files.length; i++) {
+					tempPaths.push(fileE.files[i].file);
+				}
+				
+				this.filepaths = tempPaths;
+				this.files = fileE.files;
 			}
 		}
 	}

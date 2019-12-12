@@ -11,9 +11,23 @@
 		  <text>{{task.task_subject + "  " + getTaskDate(task.task_date)}}</text>
 		  <br>
 		  <text>{{task.task_desc}}</text>
+		  <view v-if="task.task_url_array && task.task_url_array.length > 0">
+		        <a href="javascript:void(0)" @click="displayM(task)" style="margin-left:10rpx;color:#007AFF">{{task.displayL}}图片</a>
+		    
+		        <view v-bind:style="'display:' + task.displayV" v-for="url in task.task_url_array">
+		  	      <image class="logo" width="700rpx" :src="url"></image>
+		        </view>
+		    </view>
+		    
+		    <view v-if="task.video_url_array && task.video_url_array.length > 0">
+		        <a href="javascript:void(0)" @click="displayVideoM(task)" style="margin-left:10rpx;color:#007AFF">{{task.displayVideoL}}视频</a>
+		    
+		        <view v-bind:style="'display:' + task.displayVideoV" v-for="url in task.video_url_array">
+		    	      <video class="logo" width="700rpx" :src="url"></video>
+		        </view>
+		    </view>
+		  </view>
 		</view>
-		
-		
 	</view>
 </template>
 
@@ -52,13 +66,58 @@
             	        'Content-Type':'application/json'
             	    },
             	    success: (res) => {
-            	        console.log(res.data.results);        
-            	        this.tasks = res.data.results;
+            	        console.log(res.data.results);                    	        
+						let tasks = res.data.results;
+						for (let i = 0; i < tasks.length; i++) {
+							let task_url = tasks[i].task_url;
+							let task_url_array = [];
+							if (task_url && task_url.length > 0) {
+								task_url_array = task_url.split("---");
+							}
+							for (let j = 0; j < task_url_array.length; j++) {
+								task_url_array[j] = task_url_array[j].trim();
+							}
+							tasks[i].task_url_array = task_url_array;
+							tasks[i].displayV = "none";
+							tasks[i].displayL = "显示";
+							
+							let video_url = tasks[i].video_url;
+							let video_url_array = [];
+							if (video_url && video_url.length > 0) {
+								video_url_array = video_url.split("---");
+							}
+							for (let j = 0; j < video_url_array.length; j++) {
+								video_url_array[j] = video_url_array[j].trim();
+							}
+							tasks[i].video_url_array = video_url_array;
+							tasks[i].displayVideoV = "none";
+							tasks[i].displayVideoL = "显示";
+						}
+						
+						this.tasks = tasks;
             	    }
             	});
             },
 			getTaskDate(task_date) {
 				return (task_date ? (task_date.iso ? task_date.iso.substring(0, 10) : "") : "");
+			},
+			displayM(task) {
+				if (task.displayV == 'none') {
+					task.displayV = 'block';
+					task.displayL = '隐藏';
+				} else {
+					task.displayV = 'none';
+					task.displayL = '显示';
+				}
+			},
+			displayVideoM(task) {
+				if (task.displayVideoV == 'none') {
+					task.displayVideoV = 'block';
+					task.displayVideoL = '隐藏';
+				} else {
+					task.displayVideoV = 'none';
+					task.displayVideoL = '显示';
+				}
 			}
 		}
 	}

@@ -1,0 +1,1 @@
+<view class="content"><view style="width:700rpx;height:100rpx;display:flex;flex-direction:row;"><navigator style="color:#007AFF;font-size:36rpx;" href="#" data-event-opts="{{[['tap',[['goBack']]]]}}" bindtap="__e" class="_a">返回</navigator></view><view style="width:700rpx;"><web-view webview-styles="{{webviewStyles}}" src="{{url}}"></web-view></view></view>

@@ -7,7 +7,8 @@
     "pages/index/taskmanage",
     "pages/index/taskedit",
     "pages/index/announcementmanage",
-    "pages/index/announcementedit"
+    "pages/index/announcementedit",
+    "pages/index/attachment"
   ],
   "subPackages": [],
   "window": {

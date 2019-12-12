@@ -13,17 +13,16 @@
 				<view style="background-color:#C0C0C0;">内容</view>				    
 				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:500rpx" v-model="content" placeholder="请输入内容" maxlength="5000"/>
 			</view>
-			<!--
-			<view style="width:100rpx;height:100rpx">
-			    <uni-calendar 
-			    ref="calendar"
-			    :insert="false"
-			    @confirm="confirm"
-				style="width:80rpx;height:80rpx"
-			     ></uni-calendar>
-			     <button @click="openCalendar">打开日历</button>
+			<view style="width:700rpx;height:300rpx">
+				<view style="background-color:#C0C0C0;">图片链接</view>
+				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:200rpx" v-model="image_url" placeholder="请输入图片链接,多个链接以---分割"
+				 maxlength="2000" />
 			</view>
-			-->
+			<view style="width:700rpx;height:300rpx">
+				<view style="background-color:#C0C0C0;">视频链接</view>
+				<textarea placeholder-style="color:#F76260" style="width:700rpx;height:200rpx" v-model="video_url" placeholder="请输入视频链接,多个链接以---分割"
+				 maxlength="2000" />
+			</view>
 			<view>
 				<button type="primary" form-type="submit">提交</button>
 				<button type="primary" @click="formReset()">取消</button>
@@ -34,15 +33,13 @@
 </template>
 
 <script>
-	//import uniCalendar from "@/components/uni-calendar/uni-calendar"
 	export default {
-		//components: {
-		//    uniCalendar
-		//},
 		data() {
 			return {
 				page_title: '公告编辑',
 				content: '',
+				image_url: '',
+				video_url: '',
 				objectId: '',
 				title:''
 			}
@@ -76,6 +73,8 @@
             	        console.log(res.data);        
             	        this.title = res.data.title;
 						this.content = res.data.content;
+						this.image_url = res.data.image_url;
+						this.video_url = res.data.video_url;
             	    }
             	});
             },
@@ -115,6 +114,8 @@
 				    data: {
 						title: this.title,
 						content: this.content,
+						image_url: this.image_url,
+						video_url: this.video_url,
 						classid: classid
 				    },
 				    header: {
