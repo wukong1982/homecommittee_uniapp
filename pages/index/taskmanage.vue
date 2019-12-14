@@ -8,7 +8,7 @@
 		<a href="#" @click="goIndex()" style="color:#007AFF;font-size:36rpx">返回首页</a>
 		<a href="#" @click="addTask()" style="margin-left:10rpx;color:#007AFF;font-size:36rpx">添加</a>
 		</view>
-			
+		
 		<view style="width:700rpx;border-bottom:5rpx #00FF00 solid;" v-for="task in tasks">
 		  <view style="display:flex; flex-direction: row;">	
 		  <text>{{task.task_subject + "  " + getTaskDate(task.task_date)}}</text>
@@ -18,9 +18,9 @@
 		  <text>{{task.task_desc}}</text>
 		  <view v-if="task.task_url_array && task.task_url_array.length > 0">
 		      <a href="javascript:void(0)" @click="displayM(task)" style="margin-left:10rpx;color:#007AFF">{{task.displayL}}图片</a>
-		  
+		      
 		      <view v-bind:style="'display:' + task.displayV" v-for="url in task.task_url_array">
-			      <image class="logo" width="700rpx" :src="url"></image>
+			      <image class="logo" width="700rpx" mode="widthFix" :src="url"></image>
 	          </view>
 		  </view>
 		  

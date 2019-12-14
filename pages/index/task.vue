@@ -15,7 +15,7 @@
 		        <a href="javascript:void(0)" @click="displayM(task)" style="margin-left:10rpx;color:#007AFF">{{task.displayL}}图片</a>
 		    
 		        <view v-bind:style="'display:' + task.displayV" v-for="url in task.task_url_array">
-		  	      <image class="logo" width="700rpx" :src="url"></image>
+		  	      <image class="logo" width="700rpx" mode="widthFix" :src="url"></image>
 		        </view>
 		    </view>
 		    
